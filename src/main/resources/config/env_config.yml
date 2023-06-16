@@ -1,0 +1,4 @@
+qa: 
+browser : chrome
+headless : false
+ur : https://www.zoopla.co.uk/

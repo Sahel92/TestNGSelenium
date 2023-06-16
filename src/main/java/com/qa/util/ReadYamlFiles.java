@@ -7,31 +7,45 @@ import java.util.Map;
 
 import org.yaml.snakeyaml.Yaml;
 
-import com.qa.customexceptions.YamlFileNotFoundException;
-
 public class ReadYamlFiles {
 
 	private static ReadYamlFiles readYamlFiles;
-	private final HashMap<Object, Object> propertyMap;
+	private HashMap<Object, Object> propertyMap;
 
+	/**
+	 * + loads yaml file properties
+	 * 
+	 * @param filePath
+	 * @throws FileNotFoundException
+	 */
 	private ReadYamlFiles(String filePath) throws FileNotFoundException {
-		FileInputStream fileInputStream = FileUtility.getFileInputStream(filePath);
 		Yaml yaml = new Yaml();
+		FileInputStream fileInputStream = FileUtility.getFileInputStream(filePath);
 		this.propertyMap = yaml.load(fileInputStream);
 
 	}
 
-	public static ReadYamlFiles getInstance(String filePath) throws YamlFileNotFoundException {
+	/**
+	 * 
+	 * @param filePath
+	 * @return the connection to the yaml file
+	 * @throws FileNotFoundException
+	 */
+	public static ReadYamlFiles getInstance(String filePath) throws FileNotFoundException {
 		if (readYamlFiles == null)
-			try {
-				return new ReadYamlFiles(filePath);
-			} catch (FileNotFoundException e) {
-				throw new YamlFileNotFoundException(
-						"The ENVIRONMENT CONFIGURATIONS was not found on the FilePath: " + filePath);
-			}
+			return new ReadYamlFiles(filePath);
 		return readYamlFiles;
 	}
 
+	/**
+	 * ui:{ browser : "chrome" url : "www.something.com"
+	 * 
+	 * @param key
+	 * @return returnst a hashmap
+	 * 
+	 */
+
+	@SuppressWarnings("unchecked")
 	public Map<Object, Object> getYamlProperty(String key) {
 		return (HashMap<Object, Object>) propertyMap.get(key);
 	}
