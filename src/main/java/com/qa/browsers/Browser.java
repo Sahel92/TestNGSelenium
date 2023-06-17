@@ -10,6 +10,6 @@ public interface Browser {
 	 * 
 	 * @return WebDriver
 	 */
-	WebDriver launchBrowser();
+	WebDriver launchBrowser(String url);
 
 }
